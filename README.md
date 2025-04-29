@@ -19,4 +19,4 @@ Xây dựng một hệ thống gợi ý thông minh có thể đề xuất top s
 
 ---
 
-> 📌 *Project thực hiện trong khuôn khổ môn học "Ứng dụng Khoa học Dữ liệu trong Marketing".*
+> 📌 *Project thực hiện trong khuôn khổ môn học "Ứng dụng Khoa học Dữ liệu trong Marketing" của Khoa Toán Kinh Tế - NEU.*
