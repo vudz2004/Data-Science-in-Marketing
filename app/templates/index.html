@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gợi ý sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        h3 {
+            margin-top: 30px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Hệ thống Gợi ý Sản phẩm</h1>
+
+    <input type="text" id="customer_id" placeholder="Nhập Customer ID">
+    <button onclick="fetchRecommendations()">Gợi ý sản phẩm</button>
+
+    <div id="output"></div>
+
+    <script>
+        async function fetchRecommendations() {
+            const userId = document.getElementById("customer_id").value.trim();
+            const output = document.getElementById("output");
+            output.innerHTML = ""; // clear output
+
+            if (!userId) {
+                output.innerHTML = "<p style='color:red;'>⚠️ Vui lòng nhập Customer ID.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/recommend/user?customer_id=${userId}`);
+                const result = await response.json();
+
+                if (result.error) {
+                    output.innerHTML = `<p style="color:red;">⚠️ ${result.error}</p>`;
+                    return;
+                }
+
+                let html = "<h3>🔵 Gợi ý theo người dùng (User-based):</h3><ul>";
+                result.user_based.forEach(item => {
+                    html += `<li><strong>${item.StockCode}</strong>: ${item.Description}</li>`;
+                });
+                html += "</ul><h3>🟢 Gợi ý theo sản phẩm (Item-based):</h3><ul>";
+                result.item_based.forEach(item => {
+                    html += `<li><strong>${item.StockCode}</strong>: ${item.Description}</li>`;
+                });
+                html += "</ul>";
+
+                output.innerHTML = html;
+            } catch (error) {
+                console.error("Lỗi:", error);
+                output.innerHTML = `<p style='color:red;'>❌ Có lỗi xảy ra khi lấy dữ liệu.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
